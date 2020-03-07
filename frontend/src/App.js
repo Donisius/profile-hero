@@ -1,12 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link
+} from "react-router-dom";
+
+import { Home } from './routes/home/index';
+import { DashBoard } from './routes/dashboard/index';
 
 function App() {
-  return (
-    <div className="App">
-    </div>
-  );
+return (
+		<Router>
+			<Switch>
+				<Route path='/' exact>
+					<Home />
+				</Route>
+				<Route path='/dashboard'>
+					<DashBoard />
+				</Route>
+			</Switch>
+		</Router>
+	);
 }
 
 export default App;
