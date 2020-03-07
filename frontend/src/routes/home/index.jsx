@@ -68,8 +68,29 @@ export const Home = () => {
     const [resumeFiles, setResumeFiles] = useState([]);
     const [pictureFile, setPictureFile] = useState([]);
 
-    const onSubmit = () => {
-        console.log(textInputValue);
+    const readAllFiles = () => {
+        let promises = [];
+
+        for (let i = 0; i < resumeFiles.length; i++) {
+            promises.push(new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.onloadend = (event) => {
+                    resolve(event.target.result);
+                };
+                reader.onerror = (err) => {
+                    reject(err)
+                };
+                reader.readAsText(resumeFiles[i].content);
+            }))
+        }
+
+        return Promise.all(promises);
+    };
+
+    const onSubmit = async () => {
+        let textPayload = textInputValue;
+        await readAllFiles(resumeFiles).then(result => textPayload = textPayload + result);
+        console.log("text to send: ", textPayload);
     };
 
     const onResumeUpload = (event) => {
@@ -77,6 +98,7 @@ export const Home = () => {
             {
                 name: file.name,
                 size: file.size,
+                content: file,
                 uuid: uid()
             }
         ))
@@ -88,6 +110,7 @@ export const Home = () => {
         const uploadedFile = Array.from(event).map(file => (
             {
                 name: file.name,
+                content: file,
                 size: file.size
             }
         ))
