@@ -1,0 +1,25 @@
+{
+  "name": "profile-hero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently npm:start:backend npm:start:frontend",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donisius/profile-hero.git"
+  },
+  "author": "Donisius Wigie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Donisius/profile-hero/issues"
+  },
+  "homepage": "https://github.com/Donisius/profile-hero#readme",
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  }
+}

@@ -14,4 +14,4 @@ app.post('/api/upload-text', (req, res) => {
 
 app.get('/', (req, res) => {
     res.send('')
-})
+});

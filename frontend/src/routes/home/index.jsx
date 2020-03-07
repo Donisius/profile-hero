@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { TextInput } from './text-input';
+
 export const Home = () => (
-    <div>Home</div>
+    <TextInput />
 )
