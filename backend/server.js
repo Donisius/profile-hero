@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.post('/api/upload-text', (req, res) => {
+    res.send(req.body);
 });
 
 app.get('/', (req, res) => {
