@@ -73,10 +73,9 @@ const uid = (prefix = 'id') => {
     return `${prefix}${lastId}`;
 }
 
-export const Home = ({ setPersonalityInsight, selectedField, setSelectedField }) => {
+export const Home = ({ setPersonalityInsight, selectedField, setSelectedField, setToneAnalysis }) => {
     const [textInputValue, setTextInputValue] = useState('');
     const [resumeFiles, setResumeFiles] = useState([]);
-    const [pictureFile, setPictureFile] = useState([]);
 
     let history = useHistory();
 
@@ -117,7 +116,8 @@ export const Home = ({ setPersonalityInsight, selectedField, setSelectedField })
             return;
         }
         axios.post('/api/upload-text', { chosenField: selectedField.value, textContent: textPayload })
-            .then(response => {setPersonalityInsight(response)})
+            .then(response => {setPersonalityInsight(response.data.PI); setToneAnalysis(response.data.TONE); console.log(response.data.TONE)})
+            // .then(response => {console.log(response.data)})
             .then(() => {history.push('/dashboard')})
             .catch(err => console.log(err));
     };
@@ -134,26 +134,10 @@ export const Home = ({ setPersonalityInsight, selectedField, setSelectedField })
         setResumeFiles([...resumeFiles, ...uploadedFiles]);
     };
 
-    const onPhotoUpload = (event) => {
-        const uploadedFile = Array.from(event).map(file => (
-            {
-                name: file.name,
-                content: file,
-                size: file.size
-            }
-        ))
-
-        setPictureFile(uploadedFile);
-    };
-
     const handleResumeFileDelete = (event) => {
         const updatedResumeFiles = resumeFiles.filter(resumeFile => ( resumeFile.uuid !== event ));
         setResumeFiles(updatedResumeFiles);
     };
-
-    const handlePictureFileDelete = (event) => {
-        setPictureFile([]);
-    }
 
     return (
         <div className={formParent}>
@@ -196,28 +180,6 @@ export const Home = ({ setPersonalityInsight, selectedField, setSelectedField })
                                             name={name}
                                             status={'edit'}
                                             onDelete={() => {handleResumeFileDelete(uuid)}}
-                                        />
-                                    )
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div>
-                        <label className={'bx--label'}>Upload your photo (optional)</label>
-                        <FileUploaderDropContainer
-                            labelText="Drag and drop text files here or click to upload"
-                            onChange={(event) => {onPhotoUpload(event.target.files)}}
-                            multiple={false}
-                            accept={["text/plain"]} />
-                        <div className={'bx--file-container'}>
-                            {
-                                pictureFile.map(
-                                    ({ name }, index) => (
-                                        <FileUploaderItem
-                                            key={`${name}-${index}`}
-                                            name={name}
-                                            status={'edit'}
-                                            onDelete={() => handlePictureFileDelete()}
                                         />
                                     )
                                 )
