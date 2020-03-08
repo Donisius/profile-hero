@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@carbon/charts": "^0.29.8",
+    "@carbon/charts-react": "^0.29.8",
     "@carbon/icons-react": "^10.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -10,6 +12,7 @@
     "axios": "^0.19.2",
     "carbon-components": "^10.10.1",
     "carbon-components-react": "^7.10.1",
+    "d3": "^5.15.0",
     "emotion": "^10.0.27",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",

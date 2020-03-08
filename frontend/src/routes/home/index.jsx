@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 
 import {
     Button,
+    Dropdown,
     TextArea,
     FileUploaderItem,
     FileUploaderDropContainer
 } from 'carbon-components-react';
 
+import axios from 'axios';
 import { css } from 'emotion';
+import { useHistory } from "react-router-dom";
 
 const formParent = css`
     display: flex;
@@ -23,7 +26,14 @@ const formWrapper = css`
 `;
 
 const formHeader = css`
+    h2 {
+        margin-bottom: 1rem;
+    }
     margin-bottom: 1rem;
+`;
+
+const fieldDropdown = css`
+    width: 60%;
 `;
 
 const textAreaWrapper = css`
@@ -63,10 +73,23 @@ const uid = (prefix = 'id') => {
     return `${prefix}${lastId}`;
 }
 
-export const Home = () => {
+export const Home = ({ setPersonalityInsight, selectedField, setSelectedField }) => {
     const [textInputValue, setTextInputValue] = useState('');
     const [resumeFiles, setResumeFiles] = useState([]);
     const [pictureFile, setPictureFile] = useState([]);
+
+    let history = useHistory();
+
+    const dropdownItems = [
+        {
+            text: 'Software Engineering',
+            value: 'softwareEng'
+        },
+        {
+            text: 'Business',
+            value: 'business'
+        }
+    ]
 
     const readAllFiles = () => {
         let promises = [];
@@ -90,7 +113,13 @@ export const Home = () => {
     const onSubmit = async () => {
         let textPayload = textInputValue;
         await readAllFiles(resumeFiles).then(result => textPayload = textPayload + result);
-        console.log("text to send: ", textPayload);
+        if (textPayload.split(' ').length < 100) {
+            return;
+        }
+        axios.post('/api/upload-text', { chosenField: selectedField.value, textContent: textPayload })
+            .then(response => {setPersonalityInsight(response)})
+            .then(() => {history.push('/dashboard')})
+            .catch(err => console.log(err));
     };
 
     const onResumeUpload = (event) => {
@@ -106,7 +135,6 @@ export const Home = () => {
     };
 
     const onPhotoUpload = (event) => {
-        // console.log(event);
         const uploadedFile = Array.from(event).map(file => (
             {
                 name: file.name,
@@ -130,8 +158,19 @@ export const Home = () => {
     return (
         <div className={formParent}>
             <div className={formWrapper}>
-                <h2 className={formHeader}>Generate a new insight</h2>
-                <p>Generate a new personality insight and see how you compare to others in the same field</p>
+                <div className={formHeader}>
+                    <h2>Generate a new insight</h2>
+                    <p>Generate a new personality insight and see how you compare to others in the same field</p>
+                </div>
+                <Dropdown
+                    className={fieldDropdown}
+                    id='field-dropdown'
+                    titleText='Choose what field you are applying for'
+                    label='dropdown for choosing a field'
+                    items={dropdownItems}
+                    itemToString={item => (item ? item.text : '')}
+                    onChange={(event) => {setSelectedField(event.selectedItem)}}
+                    selectedItem={selectedField}/>
                 <div className={textAreaWrapper}>
                     <TextArea
                         labelText='Enter some text to be analyzed (optional)'

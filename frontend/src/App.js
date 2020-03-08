@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import {
 	BrowserRouter as Router,
@@ -15,8 +15,11 @@ import {
 import { Home } from './routes/home/index';
 import { DashBoard } from './routes/dashboard/index';
 
-function App() {
-return (
+const App = () => {
+	const [personalityInsight, setPersonalityInsight] = useState(null);
+	const [selectedField, setSelectedField] = useState({ text: "Software Engineering", value: 'softwareEng' });
+
+	return (
 		<>
 			<Header>
 				<HeaderName prefix=''>
@@ -26,10 +29,15 @@ return (
 			<Router>
 				<Switch>
 					<Route path='/' exact>
-						<Home />
+						<Home
+							setPersonalityInsight={setPersonalityInsight}
+							selectedField={selectedField}
+							setSelectedField={setSelectedField} />
 					</Route>
 					<Route path='/dashboard'>
-						<DashBoard />
+						<DashBoard
+							personalityInsight={personalityInsight}
+							selectedField={selectedField} />
 					</Route>
 				</Switch>
 			</Router>
