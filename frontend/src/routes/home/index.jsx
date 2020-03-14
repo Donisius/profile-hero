@@ -117,7 +117,6 @@ export const Home = ({ setPersonalityInsight, selectedField, setSelectedField, s
         }
         axios.post('/api/upload-text', { chosenField: selectedField.value, textContent: textPayload })
             .then(response => {setPersonalityInsight(response.data.PI); setToneAnalysis(response.data.TONE); console.log(response.data.TONE)})
-            // .then(response => {console.log(response.data)})
             .then(() => {history.push('/dashboard')})
             .catch(err => console.log(err));
     };

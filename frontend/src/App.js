@@ -33,14 +33,14 @@ const App = () => {
 						</HeaderName>
 					</Link>
 					<HeaderNavigation>
-                		<HeaderMenuItem>
+						<HeaderMenuItem>
 							<Link
 								to='/dashboard'
 								className={css`text-decoration: none; color: white`}>
 								Dashboard
 							</Link>
 						</HeaderMenuItem>
-    				</HeaderNavigation>
+					</HeaderNavigation>
 				</Header>
 				<Switch>
 					<Route path='/' exact>

@@ -4,6 +4,18 @@ const bodyParser = require('body-parser');
 const v3_PI = require('watson-developer-cloud/personality-insights/v3');
 const v3_TA = require('watson-developer-cloud/tone-analyzer/v3');
 
+const auth_PI = new v3_PI({
+    username: "apikey",
+    password: "XXX",
+    version: "2017-10-13"
+});
+
+const auth_TA = new v3_TA({
+    username: "apikey",
+    password: "XXX",
+    version: "2017-10-13"
+});
+
 const app = express();
 const port = 3001;
 

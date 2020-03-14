@@ -181,7 +181,7 @@ export const DashBoard = ({ personalityInsight, selectedField, toneAnalysis }) =
                         </StructuredListWrapper>
                     </div>
                 </div> :
-                null
+                <p className={css`margin-top: 100px;`}>Nothing here yet...</p>
             }
         </div>
     );
