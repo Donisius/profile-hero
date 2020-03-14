@@ -6,4 +6,4 @@
 
 - `npm i` from the root.
 
--`npm start`
+- `npm start`
